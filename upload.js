@@ -1,108 +1,75 @@
 /* ========================================================= 
    HUOKAING THARA BANKING SYSTEM
-   FILE UPLOAD & VERIFICATION CONTROLLER (upload.js)
+   QR UPLOAD, VERIFICATION & TRANSFER AMOUNT CONTROLLER
 ========================================================= */
 
 (() => {
     "use strict";
 
-    // Configuration constraints
-    const MAX_FILE_SIZE_MB = 5;
-    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-    const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
+    // Select DOM elements
+    const uploadInput = document.getElementById("qrUploadInput");
+    const feedbackBox = document.getElementById("scannerResult");
 
     /**
-     * Display feedback message to the user.
-     * @param {string} message - The text message to display.
-     * @param {string} type - The status type ('success' or 'error').
+     * Display feedback message to the user
      */
     function showFeedback(message, type = "success") {
-        const feedbackBox = document.getElementById("uploadFeedback") || createFeedbackBox();
+        if (!feedbackBox) return;
         
         feedbackBox.textContent = message;
-        feedbackBox.className = `feedback-box ${type}`;
+        feedbackBox.className = "message-box active";
         
-        console.log(`[UPLOAD MODULE] Status (${type.toUpperCase()}): ${message}`);
-    }
-
-    /**
-     * Dynamically creates a feedback container if it doesn't exist in the DOM.
-     */
-    function createFeedbackBox() {
-        const box = document.createElement("div");
-        box.id = "uploadFeedback";
-        box.className = "feedback-box";
-        
-        const targetSection = document.querySelector(".upload-section") || document.body;
-        targetSection.appendChild(box);
-        return box;
-    }
-
-    /**
-     * Handles the file verification and processing logic.
-     * @param {Event} event - The file input change event.
-     */
-    function handleFileSelection(event) {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-
-        if (!file) {
-            return;
-        }
-
-        // 1. Verify File Type
-        if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-            showFeedback("Invalid file format. Please upload a valid image (JPEG, PNG, or WEBP).", "error");
-            fileInput.value = ""; // Reset input
-            return;
-        }
-
-        // 2. Verify File Size
-        if (file.size > MAX_FILE_SIZE_BYTES) {
-            showFeedback(`File is too large. Maximum allowed size is ${MAX_FILE_SIZE_MB}MB.`, "error");
-            fileInput.value = ""; // Reset input
-            return;
-        }
-
-        // 3. Successful Verification & Processing Simulation
-        showFeedback(`File "${file.name}" verified successfully! Processing upload...`, "success");
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            // File data loaded successfully as base64 string or binary stream
-            const fileDataResult = e.target.result;
-            
-            // Execute custom callback or dispatch event for downstream handlers
-            triggerUploadSubmission(file.name, fileDataResult);
-        };
-
-        reader.onerror = () => {
-            showFeedback("An error occurred while reading the file. Please try again.", "error");
-        };
-
-        reader.readAsDataURL(file);
-    }
-
-    /**
-     * Simulates sending the validated file payload to the backend server.
-     */
-    function triggerUploadSubmission(fileName, dataPayload) {
-        // Placeholder for secure fetch API request to server backend
-        setTimeout(() => {
-            console.log(`[UPLOAD API] Payload for "${fileName}" ready for transmission.`);
-            showFeedback(`File "${fileName}" uploaded and processed securely!`, "success");
-        }, 1000);
-    }
-
-    // Initialize Event Listeners on DOM Load
-    document.addEventListener("DOMContentLoaded", () => {
-        const uploadInput = document.getElementById("qrUploadInput") || document.getElementById("fileUploadInput");
-
-        if (uploadInput) {
-            uploadInput.addEventListener("change", handleFileSelection);
-            console.log("[UPLOAD MODULE] Controller initialized and listening for file inputs.");
+        if (type === "error") {
+            feedbackBox.style.borderColor = "#ef4444";
+            feedbackBox.style.color = "#f87171";
+            feedbackBox.style.background = "rgba(239, 68, 68, 0.1)";
         } else {
-            console.warn("[UPLOAD MODULE] Warning: Target file input element not found in DOM.");
+            feedbackBox.style.borderColor = "#38bdf8";
+            feedbackBox.style.color = "#38bdf8";
+            feedbackBox.style.background = "rgba(56, 189, 248, 0.1)";
+        }
+    }
+
+    /**
+     * Handle the file attachment and verification process
+     */
+    function handleFileAttachment(event) {
+        const file = event.target.files[0];
+        
+        if (!file) {
+            showFeedback("No file selected. Please choose a valid QR image.", "error");
+            return;
+        }
+
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+            showFeedback("Invalid file format. Please attach a valid image file (PNG/JPG).", "error");
+            return;
+        }
+
+        // Step 1: Verify attachment
+        showFeedback(`Verifying attached file: ${file.name}...`, "success");
+        console.log(`[UPLOAD MODULE] File attached successfully: ${file.name}`);
+
+        // Step 2: Simulate QR decoding & parsing feedback
+        setTimeout(() => {
+            showFeedback("QR Verified Successfully! Proceeding to set transfer amount...", "success");
+            console.log("[UPLOAD MODULE] QR code verified. Transitioning to transfer amount setup.");
+
+            // Step 3: Proceed to set amount to transfer after a brief delay
+            setTimeout(() => {
+                // Redirect or trigger the set amount view (e.g., navigating to transfer form)
+                window.location.href = "withdrawal.html"; // Or your specific transfer amount module URL
+            }, 1500);
+
+        }, 1200);
+    }
+
+    // Initialize event listeners when DOM is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        if (uploadInput) {
+            uploadInput.addEventListener("change", handleFileAttachment);
+            console.log("[UPLOAD MODULE] Controller initialized and listening for attachments.");
         }
     });
 
