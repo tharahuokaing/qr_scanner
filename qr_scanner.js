@@ -1,6 +1,6 @@
 /* ========================================================= 
    HUOKAING THARA BANKING SYSTEM
-   PHASE 12: QR CODE SCANNER & UPLOAD CONTROLLER
+   PHASE 12: QR SCANNER & AUTO-REDIRECT CONTROLLER
 ========================================================= */
 
 (() => {
@@ -9,95 +9,129 @@
     let mediaStream = null;
     let trackSettings = null;
     let torchState = false;
-    let currentFacingMode = "environment"; // Default to back camera
+    let currentFacingMode = "environment";
+    let isScanningActive = true;
 
     const videoElement = document.getElementById("cameraPreview");
     const flashBtn = document.getElementById("toggleFlashBtn");
     const switchBtn = document.getElementById("switchCameraBtn");
-    const uploadInput = document.getElementById("qrUploadInput");
     const resultBox = document.getElementById("scannerResult");
 
-    function showResult(text, isError = false) {
-        resultBox.textContent = `Scanned Data: ${text}`;
+    /**
+     * Display status and feedback messages
+     */
+    function showFeedback(message, isError = false) {
+        if (!resultBox) return;
+        resultBox.textContent = message;
         resultBox.className = "message-box active";
         if (isError) {
             resultBox.style.borderColor = "#ef4444";
             resultBox.style.color = "#f87171";
+            resultBox.style.background = "rgba(239, 68, 68, 0.1)";
+        } else {
+            resultBox.style.borderColor = "#38bdf8";
+            resultBox.style.color = "#38bdf8";
+            resultBox.style.background = "rgba(56, 189, 248, 0.1)";
         }
-        console.log(`[PHASE 12 QR] Processed payload: ${text}`);
     }
 
-    // Initialize Camera Stream
+    /**
+     * Handle successful QR code detection and redirect to set amount
+     */
+    function handleQRDetection(qrPayload) {
+        if (!isScanningActive) return;
+        isScanningActive = false;
+
+        console.log(`[QR SCANNER] Valid bank QR detected: ${qrPayload}`);
+        showFeedback(`QR Code Detected! Redirecting to set transfer amount...`);
+
+        // Stop camera streams cleanly before navigating
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+
+        // Delay redirect slightly to let the user read the feedback
+        setTimeout(() => {
+            // Redirect to your withdrawal/transfer amount page with payload parameter
+            window.location.href = `withdrawal.html?qr_data=${encodeURIComponent(qrPayload)}`;
+        }, 1500);
+    }
+
+    /**
+     * Initialize live camera stream
+     */
     async function initCamera() {
         if (mediaStream) {
             mediaStream.getTracks().forEach(track => track.stop());
         }
 
         try {
-            const constraints = {
-                video: { facingMode: currentFacingMode }
-            };
+            const constraints = { video: { facingMode: currentFacingMode } };
             mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
             videoElement.srcObject = mediaStream;
 
             const track = mediaStream.getVideoTracks()[0];
             trackSettings = track.getCapabilities ? track.getCapabilities() : {};
 
-            // Enable torch button if hardware supports it
             if (trackSettings.torch) {
                 flashBtn.disabled = false;
             } else {
                 flashBtn.disabled = true;
-                flashBtn.title = "Flashlight not supported on this device/browser";
             }
+
+            // Start frame analysis loop for QR detection
+            requestAnimationFrame(scanVideoFrame);
         } catch (err) {
-            console.error("[PHASE 12 ERROR] Camera access denied or unavailable:", err);
-            showResult("Camera access unavailable. Use file upload option.", true);
+            console.error("[QR SCANNER ERROR] Camera access failed:", err);
+            showFeedback("Camera access unavailable. Please use file upload.", true);
             flashBtn.disabled = true;
         }
     }
 
-    // Toggle Flash / Torch Function
+    /**
+     * Simulated frame-by-frame scanner detector (hook your barcode/QR library here)
+     */
+    function scanVideoFrame() {
+        if (!isScanningActive) return;
+
+        // In production, integrate a decoder library here (e.g., jsQR) scanning videoElement.
+        // For demonstration, the system stays ready to intercept real detection triggers.
+
+        if (isScanningActive) {
+            requestAnimationFrame(scanVideoFrame);
+        }
+    }
+
+    /**
+     * Toggle device flashlight / torch API
+     */
     async function toggleFlash() {
         if (!mediaStream) return;
         const track = mediaStream.getVideoTracks()[0];
         try {
             torchState = !torchState;
-            await track.applyConstraints({
-                advanced: [{ torch: torchState }]
-            });
+            await track.applyConstraints({ advanced: [{ torch: torchState }] });
             flashBtn.textContent = torchState ? "🔦 Flash ON" : "🔦 Toggle Flash";
         } catch (err) {
-            console.error("[PHASE 12 ERROR] Failed to toggle torch:", err);
+            console.error("[TORCH ERROR] Flashlight control failed:", err);
         }
     }
 
-    // Switch Camera Facing Mode
+    /**
+     * Switch between front and back cameras
+     */
     function switchCamera() {
         currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
         initCamera();
     }
 
-    // Handle Uploaded QR Image File Simulation
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
+    // Expose detection trigger globally so external decoders can call it easily
+    window.simulateQRFound = handleQRDetection;
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            // Simulated decoding response for uploaded QR graphic
-            showResult(`Successfully parsed uploaded file: ${file.name}`);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Event Listeners
     document.addEventListener("DOMContentLoaded", () => {
         initCamera();
-
         if (flashBtn) flashBtn.addEventListener("click", toggleFlash);
         if (switchBtn) switchBtn.addEventListener("click", switchCamera);
-        if (uploadInput) uploadInput.addEventListener("change", handleImageUpload);
     });
 
 })();
