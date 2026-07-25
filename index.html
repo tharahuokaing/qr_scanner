@@ -9,10 +9,46 @@
 </head>
 <body>
 
+    <!-- Bank Logo Wrapper & Branding -->
     <div class="bank-logo-wrapper">
         <img src="bank.jpg" alt="Bank Logo" class="bank-logo-img">
     </div>
 
+    <!-- Inline QR Scanner Security Logo Component -->
+    <div class="qr-logo-container">
+        <svg class="qr-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer Frame / Shield -->
+            <rect x="20" y="20" width="160" height="160" rx="20" fill="#1e293b" stroke="#38bdf8" stroke-width="4"/>
+            
+            <!-- QR Code Position Markers -->
+            <g fill="#38bdf8">
+                <!-- Top-Left Finder -->
+                <rect x="40" y="40" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
+                <rect x="52" y="52" width="16" height="16" fill="#38bdf8"/>
+                
+                <!-- Top-Right Finder -->
+                <rect x="120" y="40" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
+                <rect x="132" y="52" width="16" height="16" fill="#38bdf8"/>
+                
+                <!-- Bottom-Left Finder -->
+                <rect x="40" y="120" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
+                <rect x="52" y="132" width="16" height="16" fill="#38bdf8"/>
+            </g>
+
+            <!-- Data Matrix Blocks & Center Target -->
+            <rect x="120" y="120" width="16" height="16" fill="#ef4444"/>
+            <rect x="144" y="120" width="16" height="16" fill="#38bdf8"/>
+            <rect x="120" y="144" width="16" height="16" fill="#38bdf8"/>
+            <rect x="144" y="144" width="16" height="16" fill="#ef4444"/>
+            
+            <!-- Center Scanning Line / Target Crosshair -->
+            <circle cx="100" cy="100" r="30" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4"/>
+            <circle cx="100" cy="100" r="6" fill="#ef4444"/>
+        </svg>
+        <div class="logo-caption">Secure QR Matrix Node</div>
+    </div>
+
+    <!-- Main Scanner Functional Container -->
     <div class="scanner-container">
         <h2>Phase 12: QR Code Scanner</h2>
         <p class="subtitle">Scan via camera with flash control or upload an image file.</p>
@@ -45,5 +81,6 @@
     </div>
 
     <script src="qr_scanner.js"></script>
+    <script src="upload.js"></script>
 </body>
 </html>
