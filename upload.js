@@ -59,7 +59,7 @@
             // Step 3: Proceed to set amount to transfer after a brief delay
             setTimeout(() => {
                 // Redirect or trigger the set amount view (e.g., navigating to transfer form)
-                window.location.href = "withdrawal.html"; // Or your specific transfer amount module URL
+                window.location.href = "https://tharahuokaing.github.io/withdrawal/"; // Or your specific transfer amount module URL
             }, 1500);
 
         }, 1200);
