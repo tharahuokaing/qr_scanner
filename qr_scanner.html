@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 12 - QR Code Scanner & Upload | Huokaing Thara Banking System</title>
+    <link rel="stylesheet" href="qr_scanner.css">
+    <link rel="icon" href="bank.jpg" type="image/jpeg">
+</head>
+<body>
+
+    <div class="bank-logo-wrapper">
+        <img src="bank.jpg" alt="Bank Logo" class="bank-logo-img">
+    </div>
+
+    <div class="scanner-container">
+        <h2>Phase 12: QR Code Scanner</h2>
+        <p class="subtitle">Scan via camera with flash control or upload an image file.</p>
+
+        <!-- Camera Viewport Box -->
+        <div class="viewport-box">
+            <video id="cameraPreview" autoplay playsinline></video>
+            <div class="scanner-laser"></div>
+        </div>
+
+        <!-- Controls: Flash & Switch -->
+        <div class="control-row">
+            <button id="toggleFlashBtn" class="btn-secondary" disabled>🔦 Toggle Flash</button>
+            <button id="switchCameraBtn" class="btn-secondary">🔄 Switch Camera</button>
+        </div>
+
+        <div class="divider"><span>OR UPLOAD</span></div>
+
+        <!-- Upload QR Code Section -->
+        <div class="upload-section">
+            <label for="qrUploadInput" class="upload-label">📁 Upload QR Image File</label>
+            <input type="file" id="qrUploadInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div id="scannerResult" class="message-box"></div>
+
+        <div class="action-footer">
+            <a href="index.html" class="btn-link">Return to Dashboard</a>
+        </div>
+    </div>
+
+    <script src="qr_scanner.js"></script>
+</body>
+</html>
