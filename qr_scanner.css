@@ -300,3 +300,74 @@ h2 {
     background: #0ea5e9;
     transform: translateY(-1px);
 }
+
+/* =========================================================
+   QR GENERATOR LAYOUT - STACKED AMOUNT & BUTTON STYLING
+========================================================= */
+
+/* Inline Generator Section Container */
+.qr-generator-inline-section {
+    background: rgba(30, 41, 59, 0.75);
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Label styling */
+.qr-generator-inline-section label {
+    display: block;
+    font-size: 0.85rem;
+    color: #38bdf8;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Stacked Amount Input Field */
+.qr-generator-inline-section input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 12px; /* Space between input and button below */
+}
+
+.qr-generator-inline-section input[type="number"]:focus {
+    border-color: #38bdf8;
+    outline: none;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+/* Full-Width Generate Button Placed Below */
+.qr-generator-inline-section button#generateQRBtn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    box-sizing: border-box;
+}
+
+.qr-generator-inline-section button#generateQRBtn:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
+
+/* Result Area Spacing */
+#generatedQRResult {
+    margin-top: 15px;
+    text-align: center;
+}
