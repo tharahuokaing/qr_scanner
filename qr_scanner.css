@@ -288,3 +288,15 @@ h2 {
     margin-top: 10px;
     box-sizing: border-box;
 }
+
+/* Additional Styles for Inline QR Generator */
+.qr-generator-inline-section input[type="number"]:focus {
+    border-color: #38bdf8;
+    outline: none;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+.qr-generator-inline-section button#generateQRBtn:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
