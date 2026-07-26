@@ -55,14 +55,12 @@
 
         <div class="divider"><span>OR GENERATE QR</span></div>
 
-        <!-- QR Generator Section Added Near Controls -->
-        <div class="qr-generator-inline-section" style="background: rgba(30, 41, 59, 0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.2); margin-bottom: 20px;">
-            <label for="qrAmountInput" style="display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; font-weight: bold;">Set Transfer Amount (USD)</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="number" id="qrAmountInput" placeholder="e.g. 50.00" style="flex: 1; padding: 10px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 1rem;">
-                <button id="generateQRBtn" class="btn-secondary" style="background: #38bdf8; color: #0f172a; font-weight: bold; border: none; cursor: pointer;">Generate</button>
-            </div>
-            <div id="generatedQRResult" style="margin-top: 15px; text-align: center;"></div>
+        <!-- QR Generator Section with Stacked Layout -->
+        <div class="qr-generator-inline-section">
+            <label for="qrAmountInput">Set Transfer Amount (USD)</label>
+            <input type="number" id="qrAmountInput" placeholder="e.g. 50.00">
+            <button id="generateQRBtn" class="btn-secondary">Generate QR Code</button>
+            <div id="generatedQRResult"></div>
         </div>
 
         <div class="divider"><span>OR UPLOAD</span></div>
