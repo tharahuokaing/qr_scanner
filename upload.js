@@ -15,10 +15,10 @@
      */
     function showFeedback(message, type = "success") {
         if (!feedbackBox) return;
-        
+
         feedbackBox.textContent = message;
         feedbackBox.className = "message-box active";
-        
+
         if (type === "error") {
             feedbackBox.style.borderColor = "#ef4444";
             feedbackBox.style.color = "#f87171";
@@ -31,11 +31,11 @@
     }
 
     /**
-     * Handle the file attachment and verification process
+     * Handle the file attachment, verification process, and failure checks
      */
     function handleFileAttachment(event) {
         const file = event.target.files[0];
-        
+
         if (!file) {
             showFeedback("No file selected. Please choose a valid QR image.", "error");
             return;
@@ -51,15 +51,26 @@
         showFeedback(`Verifying attached file: ${file.name}...`, "success");
         console.log(`[UPLOAD MODULE] File attached successfully: ${file.name}`);
 
-        // Step 2: Simulate QR decoding & parsing feedback
+        // Step 2: Simulate QR decoding & parsing check
         setTimeout(() => {
+            // Simulated condition: Check if filename or properties contain valid QR indicators 
+            // (You can replace this condition with actual decoder results from libraries like jsQR)
+            const isInvalidQRCode = file.name.toLowerCase().includes("invalid") || file.name.toLowerCase().includes("test_bad");
+
+            if (isInvalidQRCode) {
+                // Handle unverified or non-QR code uploads
+                showFeedback("Sorry, this QR code not detect to customer. Please try another valid code.", "error");
+                console.warn("[UPLOAD MODULE] QR verification failed: Unrecognized or invalid payload.");
+                return;
+            }
+
+            // Success Path: Valid QR Code detected
             showFeedback("QR Verified Successfully! Proceeding to set transfer amount...", "success");
             console.log("[UPLOAD MODULE] QR code verified. Transitioning to transfer amount setup.");
 
             // Step 3: Proceed to set amount to transfer after a brief delay
             setTimeout(() => {
-                // Redirect or trigger the set amount view (e.g., navigating to transfer form)
-                window.location.href = "https://tharahuokaing.github.io/withdrawal/"; // Or your specific transfer amount module URL
+                window.location.href = "https://tharahuokaing.github.io/withdrawal/"; 
             }, 1500);
 
         }, 1200);
