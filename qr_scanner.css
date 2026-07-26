@@ -209,3 +209,82 @@ h2 {
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
+
+/* =========================================================
+   HUOKAING THARA BANKING SYSTEM - QR SCAN & REDIRECT STYLING
+========================================================= */
+
+/* Scanner Result Feedback Container */
+.message-box {
+    display: none;
+    margin-top: 15px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.message-box.active {
+    display: block;
+}
+
+/* Post-Scan Loading & Target Container Overlay */
+.scan-processing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    color: #ffffff;
+}
+
+/* Spinner Animation for Redirect Processing */
+.scan-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(56, 189, 248, 0.2);
+    border-top: 4px solid #38bdf8;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Target Amount Form Wrapper for Scanned Payload */
+.qr-amount-container {
+    background: #1e293b;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 16px;
+    padding: 25px;
+    max-width: 450px;
+    width: 90%;
+    margin: 30px auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #f8fafc;
+    box-sizing: border-box;
+}
+
+.qr-amount-container input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
