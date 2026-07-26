@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner & Upload | Huokaing Thara Banking System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QR Code Scanner & Generator | Huokaing Thara Banking System</title>
     <link rel="stylesheet" href="qr_scanner.css">
     <link rel="icon" href="bank.jpg" type="image/jpeg">
 </head>
@@ -17,31 +17,19 @@
     <!-- Inline QR Scanner Security Logo Component -->
     <div class="qr-logo-container">
         <svg class="qr-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer Frame / Shield -->
             <rect x="20" y="20" width="160" height="160" rx="20" fill="#1e293b" stroke="#38bdf8" stroke-width="4"/>
-            
-            <!-- QR Code Position Markers -->
             <g fill="#38bdf8">
-                <!-- Top-Left Finder -->
                 <rect x="40" y="40" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
                 <rect x="52" y="52" width="16" height="16" fill="#38bdf8"/>
-                
-                <!-- Top-Right Finder -->
                 <rect x="120" y="40" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
                 <rect x="132" y="52" width="16" height="16" fill="#38bdf8"/>
-                
-                <!-- Bottom-Left Finder -->
                 <rect x="40" y="120" width="40" height="40" rx="6" fill="none" stroke="#38bdf8" stroke-width="8"/>
                 <rect x="52" y="132" width="16" height="16" fill="#38bdf8"/>
             </g>
-
-            <!-- Data Matrix Blocks & Center Target -->
             <rect x="120" y="120" width="16" height="16" fill="#ef4444"/>
             <rect x="144" y="120" width="16" height="16" fill="#38bdf8"/>
             <rect x="120" y="144" width="16" height="16" fill="#38bdf8"/>
             <rect x="144" y="144" width="16" height="16" fill="#ef4444"/>
-            
-            <!-- Center Scanning Line / Target Crosshair -->
             <circle cx="100" cy="100" r="30" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4"/>
             <circle cx="100" cy="100" r="6" fill="#ef4444"/>
         </svg>
@@ -50,8 +38,8 @@
 
     <!-- Main Scanner Functional Container -->
     <div class="scanner-container">
-        <h2>QR Code Scanner</h2>
-        <p class="subtitle">Scan via camera with flash control or upload an image file.</p>
+        <h2>QR Code Scanner & Generator</h2>
+        <p class="subtitle">Scan via camera, upload file, or generate a custom transfer QR code.</p>
 
         <!-- Camera Viewport Box -->
         <div class="viewport-box">
@@ -63,6 +51,18 @@
         <div class="control-row">
             <button id="toggleFlashBtn" class="btn-secondary" disabled>🔦 Toggle Flash</button>
             <button id="switchCameraBtn" class="btn-secondary">🔄 Switch Camera</button>
+        </div>
+
+        <div class="divider"><span>OR GENERATE QR</span></div>
+
+        <!-- QR Generator Section Added Near Controls -->
+        <div class="qr-generator-inline-section" style="background: rgba(30, 41, 59, 0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.2); margin-bottom: 20px;">
+            <label for="qrAmountInput" style="display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; font-weight: bold;">Set Transfer Amount (USD)</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="qrAmountInput" placeholder="e.g. 50.00" style="flex: 1; padding: 10px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 1rem;">
+                <button id="generateQRBtn" class="btn-secondary" style="background: #38bdf8; color: #0f172a; font-weight: bold; border: none; cursor: pointer;">Generate</button>
+            </div>
+            <div id="generatedQRResult" style="margin-top: 15px; text-align: center;"></div>
         </div>
 
         <div class="divider"><span>OR UPLOAD</span></div>
@@ -80,8 +80,10 @@
         </div>
     </div>
 
+    <!-- Script Architecture -->
     <script src="qr_scanner.js"></script>
     <script src="qr_upload.js"></script>
     <script src="qr_withdrawal.js"></script>
+    <script src="qr_generator.js"></script>
 </body>
 </html>
